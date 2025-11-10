@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -137,7 +138,7 @@ fun FeatureActivationButton(
         modifier = modifier
 
     ) {
-        Icon(Icons.Default.Settings, contentDescription = "settings", modifier = Modifier.scale(1.2f))
+        Icon(Icons.Default.Settings, contentDescription = "settings", modifier = Modifier.size(32.dp))
     }
 }
 @Preview(showBackground = true)

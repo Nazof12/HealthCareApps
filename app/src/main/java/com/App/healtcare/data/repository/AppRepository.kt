@@ -13,6 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class AppRepository @Inject constructor(
     private val appInfoDao: AppInfoDao,
+    private val mathDao: MathDao,
     @ApplicationContext private val context: Context
 ){
 
@@ -49,6 +50,9 @@ class AppRepository @Inject constructor(
             }
         }
     }
+
+
+
 
 
 }
