@@ -8,6 +8,5 @@ data class AppInfoEntity(
     @PrimaryKey
     val packageName: String,
     val appName: String,
-    val isChecked: Boolean = false,
-
+    val isChecked: Boolean = false
 )

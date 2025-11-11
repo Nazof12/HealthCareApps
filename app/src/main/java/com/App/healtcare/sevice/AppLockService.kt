@@ -21,6 +21,7 @@ class AppLockService : AccessibilityService(){
 
     private var currentLockedPackage: String? = null
 
+
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if(event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED){
             val packageName = event.packageName?.toString() ?: return
@@ -29,11 +30,11 @@ class AppLockService : AccessibilityService(){
                 currentLockedPackage = null
                 return
             }
-
             serviceScope.launch(Dispatchers.IO) {
                 val lockedApps = appRepository.getAllTrackedApps().first()
                     .filter { it.isChecked }
-                    .map { it.packageName }
+                    .map{it.packageName}
+
                 if(packageName in lockedApps){
                     currentLockedPackage = packageName
                     goHome()

@@ -51,6 +51,8 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation ("com.google.accompanist:accompanist-drawablepainter:0.34.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

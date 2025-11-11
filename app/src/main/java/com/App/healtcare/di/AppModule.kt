@@ -42,7 +42,4 @@ object AppModule {
     fun provideAppInfoDao(db: HealtLIfeDatabase): AppInfoDao{
         return db.appInfoDao()
     }
-
-
-
 }

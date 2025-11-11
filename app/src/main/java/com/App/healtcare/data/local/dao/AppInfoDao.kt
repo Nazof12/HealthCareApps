@@ -17,6 +17,8 @@ interface AppInfoDao {
      @Insert(onConflict = OnConflictStrategy.REPLACE)
      suspend fun insertAppInfo(appInfo : AppInfoEntity)
 
+     @Query("SELECT * FROM app_info WHERE packageName = :packageName LIMIT 1")
+     suspend fun getAppByPackageName(packageName: String): AppInfoEntity?
      @Update
      suspend fun updateApp(isChecked : AppInfoEntity)
 
