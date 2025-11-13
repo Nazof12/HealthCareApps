@@ -6,5 +6,8 @@ import kotlinx.serialization.Serializable
 object Route {
     val HOME = "home"
     val SETTINGS = "settings"
+    val APPCHECKED = "appchecked"
+    val QUESTIONSETTINGS = "questionsettings"
+    val MATHQUESTION = "mathquestion"
 
 }
