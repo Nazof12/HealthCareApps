@@ -20,6 +20,9 @@ interface VocabularyDao {
     @Update
     suspend fun updateWord(word: VocabularyEntity)
 
+    @Query("SELECT * FROM vocabularyEntity WHERE id In (:word)")
+    fun getWordById(word: Set<Int>): Flow<List<VocabularyEntity>>
     @Query("DELETE FROM vocabularyEntity WHERE id = :word")
     suspend fun deleteWord(word: Int)
+
 }

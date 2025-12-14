@@ -31,6 +31,9 @@ class QuestionRepository @Inject constructor(
     fun getVocabularyWord(): Flow<List<VocabularyEntity>>{
         return vocabularyDao.getVocabulary()
     }
+    fun getWordById(word: Set<Int>): Flow<List<VocabularyEntity>>{
+        return vocabularyDao.getWordById(word)
+    }
     suspend fun insertVocabularyWord(word: VocabularyEntity){
         vocabularyDao.insertWord(word)
     }

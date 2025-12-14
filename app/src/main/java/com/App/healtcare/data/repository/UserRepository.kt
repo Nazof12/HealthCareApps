@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.App.healtcare.data.model.MathInputSet
 import com.App.healtcare.data.model.UserInput
 import kotlinx.coroutines.flow.Flow
@@ -30,6 +31,7 @@ class UserRepository @Inject constructor(
         //list of quiz
         val MATH_QUIZ = booleanPreferencesKey("math_quiz")
         val VOCABULARY_QUIZ = booleanPreferencesKey("vocabulary_quiz")
+        val WORDSELECTEDID = stringSetPreferencesKey("word_selected_id")
     }
 
     //this function will return one object to UserInput
@@ -100,13 +102,24 @@ class UserRepository @Inject constructor(
             preferences[PreferencesKeys.MANY_WORD] ?: 1
         }
     }
+
     suspend fun saveManyWord(word: Int){
         dataStore.edit { settings ->
             settings[PreferencesKeys.MANY_WORD] = word
         }
     }
+    fun getSelectedWordId(): Flow<Set<String>>{
+        return dataStore.data.map { preferences ->
+            preferences[PreferencesKeys.WORDSELECTEDID] ?: emptySet()
+        }
+    }
+    suspend fun saveSelectedWordId(word: Set<String>) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.WORDSELECTEDID] = word
+        }
+    }
     //end of manyquestion vocabulary
-    //start of list of quiz 
+    //start of list of quiz type
 
     fun getQuizType(): Flow<QuizType>{
         return dataStore.data.map { preferences ->
@@ -125,7 +138,7 @@ class UserRepository @Inject constructor(
             preferences[PreferencesKeys.VOCABULARY_QUIZ] = vocab
         }
     }
-    //end of list of quiz
+    //end of list of quiz type
 }
 
 //quiz type data Class

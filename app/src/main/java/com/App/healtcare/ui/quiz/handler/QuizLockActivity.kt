@@ -10,7 +10,6 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.App.healtcare.sevice.AppLockService
-import com.App.healtcare.ui.quiz.math.QuizScreen
 import com.App.healtcare.ui.quiz.math.QuizViewModel
 import com.App.healtcare.ui.quiz.vocabulary.QuizVocabularyScreen
 import com.App.healtcare.ui.quiz.vocabulary.domain.VocabularyViewModel
@@ -39,6 +38,16 @@ class QuizLockActivity : ComponentActivity() {
                     finish()
                 }
 
+                QuizHandler(
+                    onDismiss = {
+                        if (lockedPackageName != null) {
+                            AppLockService.Companion.instance?.unlockPackage(lockedPackageName)
+                        }
+                        finish()
+                    }
+                )
+
+
 //                QuizScreen(
 //                    state = state,
 //                    onSubmitAnswer = { answer ->
@@ -51,19 +60,19 @@ class QuizLockActivity : ComponentActivity() {
 //                        finish()
 //                    }
 //                )
-                QuizVocabularyScreen(
-                    state = vocabState,
-                    onSubmitAnswer = {answer ->
-                        vocabViewModel.submitAnswer(answer)
-
-                    },
-                    onDismiss = {
-                        if(lockedPackageName != null){
-                            AppLockService.Companion.instance?.unlockPackage(lockedPackageName)
-                        }
-                        finish()
-                    }
-                )
+//                QuizVocabularyScreen(
+//                    state = vocabState,
+//                    onSubmitAnswer = {answer ->
+//                        vocabViewModel.submitAnswer(answer)
+//
+//                    },
+//                    onDismiss = {
+//                        if(lockedPackageName != null){
+//                            AppLockService.Companion.instance?.unlockPackage(lockedPackageName)
+//                        }
+//                        finish()
+//                    }
+//                )
 
 //                Box(
 //                    modifier = Modifier

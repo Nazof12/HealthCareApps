@@ -45,6 +45,11 @@ class VocabularyViewModel @Inject constructor(
         }
 
     }
+     fun saveWordById(word: Set<String>){
+        viewModelScope.launch {
+            userRepository.saveSelectedWordId(word)
+        }
+    }
 
     //start many word
     val getManyWord: StateFlow<Int> = userRepository.getManyWord().stateIn(

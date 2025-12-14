@@ -30,21 +30,29 @@ class QuizViewModel @Inject() constructor(
     private fun initializeQuiz(){
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.update { it.copy(isLoading = true) }
+            try {
+                val totalQuestion = userRepository.getManyQuestion().first()
+                val idWord = userRepository.getSelectedWordId().first()
+                    .mapNotNull { it.toIntOrNull() }
+                    .toSet()
+                val getQuizType = userRepository.getQuizType().first()
+                val targetLimit = if(getQuizType.vocabType && getQuizType.mathType){
+                    totalQuestion/2
+                } else{
+                    totalQuestion
+                }
+                _uiState.update {
+                    it.copy(
+                        totalStep = targetLimit,
+                        currentStep = 1,
+                        isQuizFinished = false
+                    )
+                }
+                loadNewQuestion()
 
-            val totalQuestion = try {
-                userRepository.getManyQuestion().first()
             }catch (e: Exception){
-                1
+                throw e
             }
-
-            _uiState.update {
-                it.copy(
-                    totalStep = totalQuestion,
-                    currentStep = 1,
-                    isQuizFinished = false
-                )
-            }
-            loadNewQuestion()
         }
     }
     fun loadNewQuestion(){

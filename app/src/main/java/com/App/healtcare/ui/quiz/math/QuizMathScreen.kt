@@ -40,11 +40,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.App.healtcare.ui.feature.settings.presentation.question_settings.masterSettings.domain.MasterViewModel
 
 @Composable
-fun QuizScreen(
+fun QuizMathScreen(
     state: QuizUiState,
     onSubmitAnswer: (String) -> Unit,
     onDismiss: () -> Unit,
-    masterView: MasterViewModel = hiltViewModel()
 ){
     var answerText by remember { mutableStateOf("") }
     val question = state.currentQuestion

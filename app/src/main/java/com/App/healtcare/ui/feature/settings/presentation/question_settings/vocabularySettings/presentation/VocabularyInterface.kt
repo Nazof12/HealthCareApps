@@ -52,6 +52,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.App.healtcare.data.local.entity.question.VocabularyEntity
+import com.App.healtcare.data.repository.QuizType
 import com.App.healtcare.ui.feature.settings.component.ButtonMathSettings
 import com.App.healtcare.ui.feature.settings.component.ButtonSettings
 import com.App.healtcare.ui.feature.settings.component.ValueInputDialog
@@ -74,7 +75,8 @@ fun VocabularyWord(
             onSaveButtonManyWord = wordView::saveManyWord,
             navController = navController,
             onDeleteButton = wordView::deleteWord,
-            onUpdateButton = wordView::updateWord
+            onUpdateButton = wordView::updateWord,
+            onSaveWordSelected = wordView::saveWordById
         )
 }
 
@@ -83,6 +85,7 @@ fun VocabularyWord(
 fun VocabularyContent(
     uiState: List<VocabularyEntity>,
     uiManyWord: Int,
+    onSaveWordSelected: (Set<String>) -> Unit,
     onSaveButtonManyWord: (Int) -> Unit,
     onSaveButton: (word: VocabularyEntity) -> Unit,
     onDeleteButton: (List<Int>) -> Unit,
@@ -93,6 +96,9 @@ fun VocabularyContent(
     var isSelectionMode by remember { mutableStateOf(false) }
     //save ID items who is selected
     var selectedItems by remember { mutableStateOf(setOf<Int>()) }
+
+    var showManyWordDialog by remember {mutableStateOf(false)}
+    var numberManyWord by remember(uiManyWord) { mutableStateOf(uiManyWord.toString()) }
 
     // save item who wanna be edited
     var itemToEdit by remember { mutableStateOf<VocabularyEntity?>(null) }
@@ -207,7 +213,14 @@ fun VocabularyContent(
                             DropdownMenuItem(
                                 text = {Text("Set as Many Word")},
                                 onClick = {
-
+                                    numberManyWord = selectedItems.size.toString()
+                                    onSaveButtonManyWord(numberManyWord.toInt())
+                                    val saveString = selectedItems
+                                        .map { it.toString() }
+                                        .toSet()
+                                    onSaveWordSelected(saveString)
+                                    showMenu = false
+                                    isSelectionMode = false
                                 }
                             )
                             DropdownMenuItem(
@@ -290,8 +303,7 @@ fun VocabularyContent(
                     }
                 )
             }
-            var showManyWordDialog by remember {mutableStateOf(false)}
-            var numberManyWord by remember(uiManyWord) { mutableStateOf(uiManyWord.toString()) }
+
             Spacer(modifier = Modifier.height(28.dp))
             ButtonMathSettings(
                 textHeader = "Many Word",
@@ -310,6 +322,7 @@ fun VocabularyContent(
                     onConfirm = {newValue ->
                         val many = newValue
                         onSaveButtonManyWord(many.toIntOrNull() ?: 1)
+                        onSaveWordSelected(emptySet())
                         showManyWordDialog = false
                     }
                 )
@@ -421,6 +434,7 @@ fun Previews(){
         onDeleteButton = {},
         onUpdateButton = {},
         uiManyWord = uiManyWord,
-        onSaveButtonManyWord = {}
+        onSaveButtonManyWord = {},
+        onSaveWordSelected = {}
     )
 }
