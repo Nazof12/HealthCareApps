@@ -9,5 +9,7 @@ object Route {
     val APPCHECKED = "appchecked"
     val QUESTIONSETTINGS = "questionsettings"
     val MATHQUESTION = "mathquestion"
+    val MASTERSETTINGS = "mastersettings"
+    val VOCABULARYSETTINGS = "vocabularySettings"
 
 }

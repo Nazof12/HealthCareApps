@@ -8,6 +8,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.App.healtcare.data.local.HealtLIfeDatabase
 import com.App.healtcare.data.local.dao.AppInfoDao
+import com.App.healtcare.data.local.dao.question.VocabularyDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,5 +42,11 @@ object AppModule {
     @Singleton
     fun provideAppInfoDao(db: HealtLIfeDatabase): AppInfoDao{
         return db.appInfoDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideVocabularyDao(db: HealtLIfeDatabase): VocabularyDao{
+        return db.vocabularyDao()
     }
 }

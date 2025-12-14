@@ -22,4 +22,7 @@ interface AppInfoDao {
      @Update
      suspend fun updateApp(isChecked : AppInfoEntity)
 
+     @Delete
+     suspend fun deleteApp(app: AppInfoEntity)
+
 }

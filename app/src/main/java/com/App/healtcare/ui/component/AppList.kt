@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.App.healtcare.data.local.entity.AppInfoEntity
 import com.App.healtcare.data.model.AppItems
+import com.App.healtcare.ui.theme.GrayText
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 
 @Composable
@@ -34,6 +35,7 @@ fun AppList(
     onAppCheckedChange: (AppItems, Boolean) -> Unit,
     typeAppSwitch: Boolean,
     iconModeApp: Boolean,
+    onClickApp: (String) -> Unit,
     modifier: Modifier = Modifier
 ){
     //UI with vertical looks
@@ -52,7 +54,8 @@ fun AppList(
                         onAppCheckedChange(app, isChecked)
                     },
                     typeSwitch = typeAppSwitch,
-                    iconMode = iconModeApp
+                    iconMode = iconModeApp,
+                    onClick = {}
                 )
             }
         }
@@ -76,7 +79,9 @@ fun AppList(
                         onAppCheckedChange(app, isChecked)
                     },
                     typeSwitch = typeAppSwitch,
-                    iconMode = iconModeApp
+                    iconMode = iconModeApp,
+                    onClick = onClickApp,
+
                 )
             }
         }
@@ -90,6 +95,7 @@ fun AppItem(
     onCheckedChange: (Boolean) -> Unit,
     typeSwitch: Boolean,
     iconMode: Boolean,
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ){
     //UI with vertical looks
@@ -125,7 +131,9 @@ fun AppItem(
     if(iconMode){
         Column(
             modifier = modifier
-                .clickable{onCheckedChange(!app.isChecked)}
+                .clickable{
+                    onClick(app.packageName)
+                }
                 .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -139,6 +147,7 @@ fun AppItem(
             Text(
                 text = app.appName,
                 style = MaterialTheme.typography.bodySmall,
+                color = GrayText,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

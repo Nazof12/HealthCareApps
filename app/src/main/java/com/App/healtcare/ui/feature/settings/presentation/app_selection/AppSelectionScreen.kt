@@ -31,7 +31,8 @@ fun AppCheckedScreen(
                 viewModel.onAppCheckedChange(app, isChecked)
             },
             typeAppSwitch = true,
-            iconModeApp = false
+            iconModeApp = false,
+            onClickApp = {}
         )
     }
 }

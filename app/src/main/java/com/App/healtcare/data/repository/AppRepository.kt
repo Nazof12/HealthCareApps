@@ -12,7 +12,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -44,13 +46,20 @@ class AppRepository @Inject constructor(
     }
     fun getInstalledAppItems(): Flow<List<AppItems>>{
         return appInfoDao.getAllAppInfo()
-            .map { entities ->
-                withContext(Dispatchers.IO){
-                    entities.map { entity ->
-                        mapEntityToAppItem(entity)
-                    }
-                }
+            .onStart {
+                syncAppsWithDatabase()
             }
+            .map { entities ->
+                entities.map { entity ->
+                    mapEntityToAppItem(entity)
+                }
+//                withContext(Dispatchers.IO){
+//                    entities.map { entity ->
+//                        mapEntityToAppItem(entity)
+//                    }
+//                }
+            }
+            .flowOn(Dispatchers.IO)
     }
 
     private fun mapEntityToAppItem(entity: AppInfoEntity):AppItems{
@@ -74,15 +83,31 @@ class AppRepository @Inject constructor(
         return appInfoDao.getAppByPackageName(packageName)
     }
 
-    suspend fun syncAppsWithDatabase(){
+    suspend fun syncAppsWithDatabase()= withContext(Dispatchers.IO){
         val deviceApps = getLaunchableApps()
         val dbApps = appInfoDao.getAllAppInfo().firstOrNull() ?: emptyList()
-
-        deviceApps.forEach { deviceApps ->
-            if(dbApps.none{it.packageName == deviceApps.packageName}){
-                appInfoDao.insertAppInfo(deviceApps)
+        // adding new apps
+        val newApps = deviceApps.filter { deviceApp ->
+            dbApps.none { dbApp -> dbApp.packageName == deviceApp.packageName }
+        }
+        if(newApps.isNotEmpty()){
+            newApps.forEach { app ->
+                appInfoDao.insertAppInfo(app)
             }
         }
+        val unisntalledApps = dbApps.filter { dbApp ->
+            deviceApps.none{deviceApp -> deviceApp.packageName == dbApp.packageName}
+        }
+        if(unisntalledApps.isNotEmpty()){
+            unisntalledApps.forEach {
+                appInfoDao.deleteApp(it)
+            }
+        }
+//        deviceApps.forEach { deviceApps ->
+//            if(dbApps.none{it.packageName == deviceApps.packageName}){
+//                appInfoDao.insertAppInfo(deviceApps)
+//            }
+//        }
     }
 
 
