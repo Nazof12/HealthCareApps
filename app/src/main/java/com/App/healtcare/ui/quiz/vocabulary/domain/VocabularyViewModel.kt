@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.min
+import kotlin.random.Random
 
 @HiltViewModel
 class VocabularyViewModel @Inject constructor(
@@ -42,17 +43,24 @@ class VocabularyViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true) }
             try {
 
+
                 val totalQuestion = userRepository.getManyQuestion().first()
                 val idWord = userRepository.getSelectedWordId().first()
                     .mapNotNull { it.toIntOrNull() }
                     .toSet()
+                val manyWords = userRepository.getManyWord().first()
+                val getMidIdWord = questionRepository.getMinIdWord()
+                val getMaxIdWord = questionRepository.getMaxIdWord()
+
                 val getQuizType = userRepository.getQuizType().first()
+                val randomIds = generateRandomUniqIds(getMaxIdWord, getMidIdWord, manyWords)
                 val rawList = if (idWord.isEmpty()) {
-                    questionRepository.getVocabularyWord().first()
+                    questionRepository.getWordById(randomIds).first()
                 } else {
                     questionRepository.getWordById(idWord).first()
                 }
                 val allWord = rawList.shuffled()
+
                 if (allWord.isNotEmpty()) {
                     val targetLimit = if (getQuizType.vocabType && getQuizType.mathType){
                         (totalQuestion/2).coerceAtLeast(1)
@@ -60,6 +68,7 @@ class VocabularyViewModel @Inject constructor(
                         totalQuestion
                     }
                     val finalLimit = min(targetLimit, allWord.size)
+
                     if(finalLimit > 0){
                         val firstQuestion = mapEntityToQuestion(allWord[0])
                         _uiState.update {
@@ -86,6 +95,17 @@ class VocabularyViewModel @Inject constructor(
             }
 
         }
+    }
+    fun generateRandomUniqIds(maxId: Int, minId: Int, count: Int): Set<Int>{
+       val range = maxId - minId + 1
+        val actualCount = minOf(count, range)
+
+        val randomIds = mutableSetOf<Int>()
+        while (randomIds.size < actualCount){
+            val randomInt = Random.nextInt(minId,maxId + 1)
+            randomIds.add(randomInt)
+        }
+        return randomIds
     }
 
     fun submitAnswer(userAnswer: String){

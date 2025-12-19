@@ -62,7 +62,7 @@ class HomeViewModel @Inject constructor(
             }
         }.stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(1000),
+            started = SharingStarted.WhileSubscribed(200),
             initialValue = emptyList()
         )
     fun onSearchQueryChange(query: String){

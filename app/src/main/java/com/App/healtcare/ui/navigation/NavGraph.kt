@@ -4,13 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.App.healtcare.ui.feature.extraSettings.main.presentation.ExtraSettings
 import com.App.healtcare.ui.feature.home.HomeScreen
-import com.App.healtcare.ui.feature.settings.presentation.app_selection.AppCheckedScreen
-import com.App.healtcare.ui.feature.settings.presentation.question_settings.mathSettings.MathSettings
-import com.App.healtcare.ui.feature.settings.presentation.question_settings._main.QuestionSettings
-import com.App.healtcare.ui.feature.settings.presentation._main.SettingsScreen
-import com.App.healtcare.ui.feature.settings.presentation.question_settings.masterSettings.representation.MasterSettings
-import com.App.healtcare.ui.feature.settings.presentation.question_settings.vocabularySettings.presentation.VocabularyWord
+import com.App.healtcare.ui.feature.questionSettings.presentation.app_selection.AppCheckedScreen
+import com.App.healtcare.ui.feature.questionSettings.presentation.question_settings.mathSettings.MathSettings
+import com.App.healtcare.ui.feature.questionSettings.presentation.question_settings._main.QuestionSettings
+import com.App.healtcare.ui.feature.questionSettings.presentation._main.SettingsScreen
+import com.App.healtcare.ui.feature.questionSettings.presentation.question_settings.masterSettings.representation.MasterSettings
+import com.App.healtcare.ui.feature.questionSettings.presentation.question_settings.vocabularySettings.presentation.VocabularyWord
 
 @Composable
 fun AppNavGraph(){
@@ -28,8 +29,9 @@ fun AppNavGraph(){
         }
         composable(Route.SETTINGS){
             SettingsScreen(
-                toCheckeApp = {navController.navigate(Route.APPCHECKED)},
-                toQuestion = {navController.navigate(Route.QUESTIONSETTINGS)}
+                toCheckeApp = { navController.navigate(Route.APPCHECKED) },
+                toQuestion = { navController.navigate(Route.QUESTIONSETTINGS) },
+                toExtraSettings = { navController.navigate(Route.EXTRASETTINGS)},
             )
         }
         composable(Route.APPCHECKED){
@@ -56,6 +58,11 @@ fun AppNavGraph(){
         }
         composable(Route.VOCABULARYSETTINGS){
             VocabularyWord(
+                navController = navController
+            )
+        }
+        composable(Route.EXTRASETTINGS){
+            ExtraSettings(
                 navController = navController
             )
         }

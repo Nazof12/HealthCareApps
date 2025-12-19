@@ -11,5 +11,5 @@ object Route {
     val MATHQUESTION = "mathquestion"
     val MASTERSETTINGS = "mastersettings"
     val VOCABULARYSETTINGS = "vocabularySettings"
-
+    val EXTRASETTINGS = "extraSettings"
 }

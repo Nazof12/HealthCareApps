@@ -32,6 +32,8 @@ class UserRepository @Inject constructor(
         val MATH_QUIZ = booleanPreferencesKey("math_quiz")
         val VOCABULARY_QUIZ = booleanPreferencesKey("vocabulary_quiz")
         val WORDSELECTEDID = stringSetPreferencesKey("word_selected_id")
+        val TIMER_APP = intPreferencesKey("timer_app")
+        val TIMERCKED = booleanPreferencesKey("timer_checked")
     }
 
     //this function will return one object to UserInput
@@ -139,10 +141,34 @@ class UserRepository @Inject constructor(
         }
     }
     //end of list of quiz type
+    //start of extra settings
+    fun getTime(): Flow<TimeSetup>{
+        return dataStore.data.map { preferences ->
+            TimeSetup(
+                longTime = preferences[PreferencesKeys.TIMER_APP] ?: 0,
+                isChecked = preferences[PreferencesKeys.TIMERCKED] ?: false
+            )
+        }
+    }
+
+    suspend fun saveTimeApp(time: Int, isChecked: Boolean){
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.TIMER_APP] = time
+            preferences[PreferencesKeys.TIMERCKED] = isChecked
+        }
+    }
+    //end of extra settings
+
 }
 
 //quiz type data Class
 data class QuizType(
     val mathType: Boolean = true,
     val vocabType: Boolean = false
+)
+
+//time setup
+data class TimeSetup(
+    val longTime: Int = 0,
+    val isChecked: Boolean = false
 )

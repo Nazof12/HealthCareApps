@@ -25,4 +25,9 @@ interface VocabularyDao {
     @Query("DELETE FROM vocabularyEntity WHERE id = :word")
     suspend fun deleteWord(word: Int)
 
+    @Query("SELECT MIN(id) FROM vocabularyEntity")
+    suspend fun getMinId(): Int
+
+    @Query("SELECT MAX(id) FROM vocabularyEntity")
+    suspend fun getMaxId(): Int
 }

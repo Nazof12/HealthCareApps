@@ -38,6 +38,7 @@ class AppLockService : AccessibilityService() {
                     packageName.contains("inputmethod") ||
                     packageName.contains("keyboard") ||
                     packageName.contains("launcher")
+            if(isSystemInterference) return
             if(temporaryUnlockedPackage != null &&
                 packageName != temporaryUnlockedPackage &&
                 packageName != this.packageName ){
@@ -47,7 +48,6 @@ class AppLockService : AccessibilityService() {
 
             // don't lock self
             if(packageName == this.packageName || packageName.contains("launcher")) return
-
             if (packageName == temporaryUnlockedPackage) return
 
             serviceScope.launch(Dispatchers.IO) {
@@ -57,8 +57,9 @@ class AppLockService : AccessibilityService() {
                 if(packageName in lockedApps){
                     val lockIntent = Intent(applicationContext, QuizLockActivity::class.java).apply{
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                        addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                         putExtra("LOCKED_PACKAGE", packageName)
                     }
                     startActivity(lockIntent)

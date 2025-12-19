@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 
@@ -40,7 +41,7 @@ fun ModernSearchBar(
         singleLine = true,
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
         textStyle = MaterialTheme.typography.bodyLarge.copy(
-            color = MaterialTheme.colorScheme.onSurface
+            color = Color.Black
         ),
         decorationBox = { innerTextField ->
             Row(
@@ -65,7 +66,7 @@ fun ModernSearchBar(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-                    innerTextField
+                    innerTextField()
                 }
             }
         }

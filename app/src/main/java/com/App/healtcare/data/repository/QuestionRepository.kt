@@ -43,6 +43,12 @@ class QuestionRepository @Inject constructor(
     suspend fun deleteVocabularyWord(word: Int){
         vocabularyDao.deleteWord(word)
     }
+    suspend fun getMinIdWord(): Int{
+        return vocabularyDao.getMinId()
+    }
+    suspend fun getMaxIdWord(): Int{
+        return vocabularyDao.getMaxId()
+    }
     //end voacabulary database
 
 

@@ -36,8 +36,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.App.healtcare.ui.feature.settings.presentation.question_settings.masterSettings.domain.MasterViewModel
 
 @Composable
 fun QuizMathScreen(

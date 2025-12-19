@@ -20,12 +20,13 @@ class QuizViewModel @Inject() constructor(
     private val questionRepository: QuestionRepository,
     private val userRepository: UserRepository
 ) : ViewModel(){
+    private val _uiState = MutableStateFlow(QuizUiState())
+    val uiState: StateFlow<QuizUiState> = _uiState.asStateFlow()
     init {
         initializeQuiz()
 }
     // this state will be shown on UI
-    private val _uiState = MutableStateFlow(QuizUiState())
-    val uiState: StateFlow<QuizUiState> = _uiState.asStateFlow()
+
 
     private fun initializeQuiz(){
         viewModelScope.launch(Dispatchers.IO) {
