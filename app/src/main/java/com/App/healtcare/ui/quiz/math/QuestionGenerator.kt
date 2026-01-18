@@ -1,6 +1,6 @@
 package com.App.healtcare.ui.quiz.math
 
-import com.App.healtcare.data.model.MathInputSet
+import com.App.healtcare.data.domain.model.MathInputSet
 import com.App.healtcare.data.repository.UserRepository
 import javax.inject.Inject
 

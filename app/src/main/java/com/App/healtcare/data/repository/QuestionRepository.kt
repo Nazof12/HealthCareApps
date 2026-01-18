@@ -2,7 +2,7 @@ package com.App.healtcare.data.repository
 
 import com.App.healtcare.data.local.dao.question.VocabularyDao
 import com.App.healtcare.data.local.entity.question.VocabularyEntity
-import com.App.healtcare.data.model.MathInputSet
+import com.App.healtcare.data.domain.model.MathInputSet
 import com.App.healtcare.ui.quiz.math.DynamicQuestion
 import com.App.healtcare.ui.quiz.math.QuestionGenerator
 import com.App.healtcare.ui.quiz.vocabulary.domain.DynamicVocabQuestion

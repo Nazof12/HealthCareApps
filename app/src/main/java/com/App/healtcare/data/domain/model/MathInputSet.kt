@@ -1,4 +1,4 @@
-package com.App.healtcare.data.model
+package com.App.healtcare.data.domain.model
 
 data class MathInputSet(
     val plus: Boolean = true,

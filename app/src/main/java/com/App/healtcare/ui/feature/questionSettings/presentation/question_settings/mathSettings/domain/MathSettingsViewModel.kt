@@ -2,7 +2,7 @@ package com.App.healtcare.ui.feature.questionSettings.presentation.question_sett
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.App.healtcare.data.model.MathInputSet
+import com.App.healtcare.data.domain.model.MathInputSet
 import com.App.healtcare.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted

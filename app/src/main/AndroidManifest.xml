@@ -16,6 +16,7 @@
     <!-- Kita juga butuh permission untuk menampilkan overlay di atas aplikasi lain -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <application
         android:name=".di.HealthLifeApp"
         android:allowBackup="true"
@@ -51,6 +52,14 @@
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/app_lock_service_config" />
+        </service>
+        <service android:name=".sevice.TimerOverlayService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Overlay timer for app usage monitoring" />
         </service>
         <activity
             android:name=".ui.quiz.handler.QuizLockActivity"

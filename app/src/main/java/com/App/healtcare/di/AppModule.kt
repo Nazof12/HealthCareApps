@@ -2,6 +2,7 @@ package com.App.healtcare.di
 
 import android.app.Application
 import android.content.Context
+import android.credentials.CredentialManager
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -9,6 +10,10 @@ import androidx.room.Room
 import com.App.healtcare.data.local.HealtLIfeDatabase
 import com.App.healtcare.data.local.dao.AppInfoDao
 import com.App.healtcare.data.local.dao.question.VocabularyDao
+import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,4 +54,11 @@ object AppModule {
     fun provideVocabularyDao(db: HealtLIfeDatabase): VocabularyDao{
         return db.vocabularyDao()
     }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth =
+        FirebaseAuth.getInstance()
+
+
 }

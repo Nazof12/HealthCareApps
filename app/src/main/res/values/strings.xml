@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">HealtCare</string>
+    <string name="default_web_client_id">
+        99312809388-funtjp4la844ttv4st6m4817b2me9qd8.apps.googleusercontent.com
+    </string>
 </resources>

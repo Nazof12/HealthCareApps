@@ -37,12 +37,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.App.healtcare.data.model.MathInputSet
-import com.App.healtcare.data.model.UserInput
+import com.App.healtcare.data.domain.model.MathInputSet
+import com.App.healtcare.data.domain.model.UserInput
 import com.App.healtcare.ui.feature.questionSettings.component.ButtonMathSettings
 import com.App.healtcare.ui.feature.questionSettings.component.ButtonSettings
 import com.App.healtcare.ui.feature.questionSettings.component.ValueInputDialog
-import com.App.healtcare.ui.feature.questionSettings.presentation._main.SettingsViewModel
+import com.App.healtcare.ui.feature.questionSettings.presentation._main.domain.SettingsViewModel
 import com.App.healtcare.ui.feature.questionSettings.presentation.question_settings.mathSettings.domain.MathSettingsViewModel
 import com.App.healtcare.ui.theme.GrayText
 import com.App.healtcare.ui.theme.MyPink

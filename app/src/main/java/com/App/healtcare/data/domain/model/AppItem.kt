@@ -1,4 +1,4 @@
-package com.App.healtcare.data.model
+package com.App.healtcare.data.domain.model
 
 import android.graphics.drawable.Drawable
 

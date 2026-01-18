@@ -41,7 +41,7 @@ fun ModernSearchBar(
         singleLine = true,
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
         textStyle = MaterialTheme.typography.bodyLarge.copy(
-            color = Color.Black
+            color = Color.White
         ),
         decorationBox = { innerTextField ->
             Row(

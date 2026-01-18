@@ -45,6 +45,7 @@ import com.App.healtcare.ui.feature.questionSettings.component.ButtonSettings
 import com.App.healtcare.ui.feature.questionSettings.component.ValueInputDialog
 import com.App.healtcare.ui.theme.GrayText
 import com.App.healtcare.ui.theme.MyPink
+import java.util.Timer
 
 @Composable
 fun ExtraSettings(
@@ -119,6 +120,7 @@ fun ExtraSettings(
                 color = GrayText,
                 fontSize = 18.sp
             )
+
            ButtonSettings(
                text = "Turn On Timer",
                onClick = {},

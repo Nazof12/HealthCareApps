@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable
 import com.App.healtcare.R
 import com.App.healtcare.data.local.dao.AppInfoDao
 import com.App.healtcare.data.local.entity.AppInfoEntity
-import com.App.healtcare.data.model.AppItems
+import com.App.healtcare.data.domain.model.AppItems
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

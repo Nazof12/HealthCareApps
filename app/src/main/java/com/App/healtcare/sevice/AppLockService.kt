@@ -24,24 +24,31 @@ import javax.inject.Inject
 class AppLockService : AccessibilityService() {
    private val serviceJob =SupervisorJob()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
-
+    private var lockedPackagesCache = setOf<String>()
     @Inject
     lateinit var appRepository: AppRepository
 
     private var temporaryUnlockedPackage: String? = null
-
+    override fun onCreate(){
+        super.onCreate()
+        serviceScope.launch {
+            appRepository.getAllTrackedApps().collect { apps ->
+                lockedPackagesCache = apps.filter { it.isChecked }.map { it.packageName }.toSet()
+            }
+        }
+    }
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        if(event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED){
+        if(event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED ||
+            event?.eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED){
             val packageName = event.packageName?.toString() ?: return
             val isSystemInterference = packageName == "android" ||
                     packageName.contains("com.android.systemui") ||
                     packageName.contains("inputmethod") ||
-                    packageName.contains("keyboard") ||
-                    packageName.contains("launcher")
+                    packageName.contains("keyboard")
             if(isSystemInterference) return
-            if(temporaryUnlockedPackage != null &&
-                packageName != temporaryUnlockedPackage &&
-                packageName != this.packageName ){
+            val isLauncher = packageName.contains("launcher") || packageName.contains("trebuchet")
+            if(isLauncher || (temporaryUnlockedPackage != null && packageName != temporaryUnlockedPackage && packageName != this.packageName)) {
+                stopService(Intent(this, TimerOverlayService::class.java))
                 temporaryUnlockedPackage = null
                 Log.d("AppLockService", "user keluar dari aplikasi, kunci diaktifkan kembali")
             }
@@ -50,11 +57,8 @@ class AppLockService : AccessibilityService() {
             if(packageName == this.packageName || packageName.contains("launcher")) return
             if (packageName == temporaryUnlockedPackage) return
 
-            serviceScope.launch(Dispatchers.IO) {
-                val lockedApps = appRepository.getAllTrackedApps().first()
-                    .filter { it.isChecked }
-                    .map{ it.packageName }
-                if(packageName in lockedApps){
+            if(lockedPackagesCache.contains(packageName)){
+                Log.d("AppLockService", "MENANGKAP APLIKASI: $packageName")
                     val lockIntent = Intent(applicationContext, QuizLockActivity::class.java).apply{
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 //                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -64,7 +68,7 @@ class AppLockService : AccessibilityService() {
                     }
                     startActivity(lockIntent)
                 }
-            }
+
 
         }
     }
@@ -73,6 +77,7 @@ class AppLockService : AccessibilityService() {
 
     override fun onDestroy() {
         super.onDestroy()
+        instance = null
         serviceJob.cancel()
     }
     companion object{
@@ -85,13 +90,15 @@ class AppLockService : AccessibilityService() {
     }
     fun unlockPackage(packageName: String){
         temporaryUnlockedPackage = packageName
-
-        val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
-        if(launchIntent != null){
-            launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            launchIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            startActivity(launchIntent)
-        }
+        val timerIntent = Intent(this, TimerOverlayService::class.java)
+        startService(timerIntent)
+//        val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
+//        if(launchIntent != null){
+//            launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//            launchIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+//            startActivity(launchIntent)
+//            startService(intent)
+//        }
     }
 
 }
